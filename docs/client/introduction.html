@@ -6,20 +6,32 @@ not here -->
 
 {{#markdown}}
 
-<b>_Meteor is an ultra-simple environment for building modern websites.
-What once took weeks, even with the best tools, now takes hours with
-Meteor._</b>
 
-The web was originally designed to work in the same way that mainframes
+<b>_Meteor è un ambiente molto semplice per costruire moderni siti web. 
+	Quello che occupava settimane di lavoro, anche con i migliori tools, ora con Meteor 
+	si può realizzare in alcune ore._</b>
+
+<!--The web was originally designed to work in the same way that mainframes
 worked in the 70s.  The application server rendered a screen and sent it
 over the network to a dumb terminal. Whenever the user did anything,
 that server rerendered a whole new screen. This model served the Web
-well for over a decade. It gave rise to LAMP, Rails, Django, PHP.
+well for over a decade. It gave rise to LAMP, Rails, Django, PHP.-->
 
-But the best teams, with the biggest budgets and the longest schedules,
+Il web è stato progettato originariamente  per lavorare nello stesso modo in cui 
+i mainframes lavoravano negli anni 70. I server  forniscono 
+una pagina e la inviano sulla rete fino all'utilizzatore. Anche se l'utilizzatore 
+non fa nulla il server ricarica l'intera pagina. Questo modello è stato utilizzato per oltre
+un decennio ed ha dato origine a Lamp, Rails, Django, PHP.
+
+
+<!--But the best teams, with the biggest budgets and the longest schedules,
 now build applications in JavaScript that run on the client.  These apps
 have stellar interfaces.  They don't reload pages.  They are reactive:
-changes from any client immediately appear on everyone's screen.
+changes from any client immediately appear on everyone's screen.-->
+
+Ma il miglior teams, con un gran budget e con orari dilatati, progetta ora
+applicazioni in Javascript che girano lato client. Queste applicaizione hanno magnifiche interfaccie.
+Queste apps sono reattive: ogni modifica di qualsiasi cliente appare immediatamente a tutti.
 
 They've built them the hard way.  Meteor makes it an order of
 magnitude simpler, and a lot more fun.  You can build a complete
@@ -29,8 +41,12 @@ endpoints in the cloud, or manage a database, or wrangle an ORM layer,
 or swap back and forth between JavaScript and Ruby, or broadcast data
 invalidations to clients.
 
-Meteor is a work in progress, but we hope it shows the direction of
-our thinking.  We'd love to hear your feedback.
+
+<!--Meteor is a work in progress, but we hope it shows the direction of
+our thinking.  We'd love to hear your feedback.-->
+
+Meteor è un lavoro in crescita, ma noi speriamo di illustrare le linee guida del nostro pensiero.
+Siamo molto contenti di ricevere i vostri feedback
 
 &mdash; Avital, David, David, Geoff, Jade, Kara, Kristy, Matt, Naomi, and Nick
 
@@ -39,22 +55,21 @@ our thinking.  We'd love to hear your feedback.
 <!-- change colors on these. $ and command output in grey, rest in
 white -->
 
-The following works on all [supported
-platforms](https://github.com/meteor/meteor/wiki/Supported-Platforms).
+Il seguente procedimento funziona su tutte [piattaforme supportate](https://github.com/meteor/meteor/wiki/Supported-Platforms).
 
-Install Meteor:
+Installa Meteor:
 
 <pre>
 $ curl https://install.meteor.com | /bin/sh
 </pre>
 
-Create a project:
+Crea un progetto:
 
 <pre>
 $ meteor create myapp
 </pre>
 
-Run it locally:
+Fallo girare in locale:
 
 <pre>
 $ cd myapp
@@ -62,79 +77,122 @@ $ meteor
 Running on: http://localhost:3000/
 </pre>
 
-Unleash it on the world (on a free server we provide):
+Pubblicalo sul web(su di un server gratis che ti forniamo noi):
 
 <pre>
 $ meteor deploy myapp.meteor.com
 </pre>
 
-<h2 id="sevenprinciples">Seven Principles of Meteor</h2>
+<h2 id="sevenprinciples">I sette principi di Meteor</h2>
 
-<!-- wire with [1,2,3] on it -->
+<!-- wire with [1,2,3] on it 
 - _Data on the Wire_. Don't send HTML over the network. Send data and
-let the client decide how to render it.
+let the client decide how to render it.-->
+- _Data on the Wire_. Non inviare HTML in rete. Invia i dati e permetti al 
+client di decidere come utilizzarli.
 
 <!-- two people, one speech bubble coming out of both of their mouths,
 containing '{}' -->
-- _One Language._ Write both the client and the server parts of your
-interface in JavaScript.
+<!--- _One Language_. Write both the client and the server parts of your
+interface in JavaScript.-->
+
+- _Un linguaggio_. Scrivi sia la parte client che la parte server 
+della tua interfaccia in Javascript.
 
 <!-- globe, with the same database icon in US and Russia -->
-- _Database Everywhere_. Use the same transparent API to access your
-database from the client or the server.
+<!--- _Database Everywhere_. Use the same transparent API to access your
+database from the client or the server.-->
+
+- _Database Ovunque_. Puoi utilizzare le stesse chiamate API per accedere al database
+sia dal client che dal server.
 
 <!-- clock with zero time elapsed. or clock on left with zero time
 elapsed, horizontal bold line to a clock with zero time elapsed, but a
 line at a 45 degree angle to a a clock in grey with 100 ms
 elapsed. like shades of relativity -->
-- _Latency Compensation_. On the client, use prefetching and model
+<!--- _Latency Compensation_. On the client, use prefetching and model
 simulation to make it look like you have a zero-latency connection to
-the database.
+the database.-->
+
+- _Latency Compensation_. Dal lato client, si utilizza la tecnica del prefetching e della simulazione dei modelli
+per far avere l'impressione di disporre di una connessione con il database a latenza zero.
 
 <!-- knee getting hit with hammer like in reflex test -->
 - _Full Stack Reactivity_. Make realtime the default. All layers, from
 database to template, should make an event-driven interface available.
 
-- _Embrace the Ecosystem_. Meteor is open source and integrates,
-rather than replaces, existing open source tools and frameworks.
+
+<!--- _Embrace the Ecosystem_. Meteor is open source and integrates,
+rather than replaces, existing open source tools and frameworks.-->
+
+- _Embrace the Ecosystem_. Meteor è open source e integra,
+piuttosto che sostituire, i tools e i framework open source già esistenti.
+
 
 <!-- zen circle -->
-- _Simplicity Equals Productivity_. The best way to make something
+<!--- _Simplicity Equals Productivity_. The best way to make something
 seem simple is to have it actually _be_ simple. Accomplish this through
-clean, classically beautiful APIs.
+clean, classically beautiful APIs.-->
 
+- _Semplicità equivale a produttività_. Il modo migliore per far sembrare 
+qualcosa semplice è di essere realmente semplice. Realizzando tutto questo 
+tramite semplici, classiche chiamate API.
 
-<h2 id="resources">Developer Resources</h2>
+<h2 id="resources">Risorse per gli sviluppatori</h2>
 
 <!-- https://github.com/blog/273-github-ribbons -->
 <a href="http://github.com/meteor/meteor"><img class="github-ribbon visible-desktop" style="position: absolute; top: 0; right: 0; border: 0;" src="/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
-If anything in Meteor catches your interest, we hope you'll get involved
-with the project!
+<!--If anything in Meteor catches your interest, we hope you'll get involved
+with the project!-->
+
+Se qualcosa di Meteor a catturato il vostro interese, speriamo che vogliate 
+parteciapre al progetto
 
 <dl class="involved">
 <dt><span>Stack Overflow</span></dt>
-<dd>The best place to ask (and answer!) technical questions is on <a href="http://stackoverflow.com/questions/tagged/meteor">Stack
+<!--<dd>The best place to ask (and answer!) technical questions is on <a href="http://stackoverflow.com/questions/tagged/meteor">Stack
   Overflow</a>.  Be sure to add
   the <code>meteor</code> tag to your question.
+</dd>-->
+
+<dd>Il miglior posto per chiedere (e rispondere!) dubbi tecnici e  <a href="http://stackoverflow.com/questions/tagged/meteor">Stack
+  Overflow</a>.  Assicurati di aggiungere
+  il <code>meteor</code> tag alla tua domanda.
 </dd>
 
-<dt><span>Mailing lists</span></dt>
+<!--<dt><span>Mailing lists</span></dt>
 <dd>
   We have two mailing lists for Meteor.  <nobr><a href="http://groups.google.com/group/meteor-talk"><code>meteor-talk@googlegroups.com</code></a></nobr>
   is for general questions, requests for help, and new project
   announcements.
   <nobr><a href="http://groups.google.com/group/meteor-core"><code>meteor-core@googlegroups.com</code></a></nobr>
   is for discussing Meteor internals and proposed changes.
+</dd>-->>
+
+<dt><span>Mailing lists</span></dt>
+<dd>
+  Abbiamo due Mailing Lists per Meteor.  <nobr><a href="http://groups.google.com/group/meteor-talk"><code>meteor-talk@googlegroups.com</code></a></nobr>
+  è per le domande generali, richieste di aiuto e annunci di nuovi progetti.
+  <nobr><a href="http://groups.google.com/group/meteor-core"><code>meteor-core@googlegroups.com</code></a></nobr>
+  è per discutere di Meteor, del suo funzionamento e proporre dei cambiamenti.
 </dd>
 
-<dt><span>IRC</span></dt>
+<!--<dt><span>IRC</span></dt>
 <dd><code>#meteor</code> on <code>irc.freenode.net</code>. The
 developers hang out here and will answer your questions whenever they
-can.</dd>
+can.</dd>-->
+
+<dt><span>IRC</span></dt>
+<dd><code>#meteor</code> su <code>irc.freenode.net</code>. Gli sviluppatori saranno a 
+	vostra disposizione e risponderanno alle vostre domande appena potranno.</dd>
+
+<!--<dt><span>GitHub</span></dt>
+<dd>The code is on <a href="http://github.com/meteor/meteor">GitHub</a>. The best way to send a patch is with a GitHub pull request, and the best way to file a bug is in the GitHub bug tracker.</dd>
+</dl>-->
 
 <dt><span>GitHub</span></dt>
-<dd>The code is on <a href="http://github.com/meteor/meteor">GitHub</a>. The best way to send a patch is with a GitHub pull request, and the best way to file a bug is in the GitHub bug tracker.</dd>
+<dd>Il codice è su <a href="http://github.com/meteor/meteor">GitHub</a>. Il miglior modo per inviare un aggiornamento è con Github pull request, e il miglior modo per segnalare un bug è con Github bug tracker.</dd>
 </dl>
 
 {{/markdown}}
