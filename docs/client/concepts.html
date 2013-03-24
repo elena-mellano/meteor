@@ -36,7 +36,9 @@ to structure those components in your file tree.
 
 Un applicazione Meteor è un misto di Javascript che gira all'interno del browser 
 del client, Javascript che gira sul server di Meteor all'interno di [Node.js](http://nodejs.org/)
-container, e di tutti i frammenti di codice HTML,le regole CSS.Meteor
+container, e di tutti i frammenti di codice HTML,le regole CSS.Meteor rende automatica la 
+pacchettizzazione e la trsmissione di tutte queste componenti. E si adatta facilmente al 
+modo in cui scegli di struttrare questi compenenti nelle varie cartelle.
 
 The only server asset is JavaScript.  Meteor gathers all your JavaScript
 files, excluding anything under the `client`
@@ -46,6 +48,12 @@ a single thread per request, not in the asynchronous callback style
 typical of Node.  We find the linear execution model a better fit for
 the typical server code in a Meteor application.
 
+L'unico server utilizzato è Javascript. Meteor raccoglie tutti i tuoi file Javascript,
+escludendo queeli nelle sottodirectory 'client' e 'public', e li carica nel server Node.js.
+In Meteor, il codice lato server gira in un unico thread per richiesta, non 
+nello stile callback asincrono (tipico di Node.js). Troviamo l'esecuzione lineare del modello
+un migliore soluzione per i codice lato server in un applicazione Meteor.
+
 There are more assets to consider on the client side.  Meteor
 gathers all JavaScript files in your tree with the exception of
 the `server` and `public` subdirectories for the
@@ -53,23 +61,46 @@ client.  It minifies this bundle and serves it to each new client.
 You're free to use a single JavaScript file for your entire application, or
 create a nested tree of separate files, or anything in between.
 
+Ci sono alcune azioni da considerare lato client. Meteor raggruppa tutti i Javascript files
+ad eccezzione di quelli presenti nelle sottodirectory 'server' e 'public'. [...].Sei libero di 
+utillizzare un unico files per l'intera applicazione oppure creare più file annidati oppure 
+una soluzione a metà tra le due precedenti.
+
+
 Files outside the `client`, `server` and `tests` subdirectories are loaded on
 both the client and the server!  That's the place for model definitions and
 other functions.  Meteor provides the variables [`isClient`](#meteor_isclient) and
 [`isServer`](#meteor_isserver) so that your code can alter its behavior depending
 on whether it's running on the client or the server. (Files in directories named
-`tests` are not loaded anywhere.)
+`tests` are not loaded anywhere.). 
+
+I file che non sono ne nella sottodirectory client ne in quella server ne in quella test
+sono caricati sia per il server che per il client! Questi sono i file che servono per 
+scrivere le definizione dei modelli e di altre funzioni. Meteor mette a disposizione 
+le variabili [`isClient`](#meteor_isclient) e [`isServer`](#meteor_isserver) così il tuo 
+codice può modificare il suo comportamento in funzione che cstia girando come server e come client.
+( I files nella sotttodirectory tests non sono caricati comunque)
 
 Any sensitive code that you don't want served to the client, such as code
 containing passwords or authentication mechanisms, should be
 kept in the `server` directory.
 
+Tutte le parti di codice sensibile che non vuoi che sia visibile al client, come le parti di 
+codice che contengono password o i meccanismi di autenticazione, devono essere n
+ella directory server.
+
 CSS files are gathered together as well: the client will get a bundle with all
 the CSS in your tree (excluding the `server`
 and `public` subdirectories).
 
+I file CSS sono rggruppati insieme: il client utilizza quelli nella sua directory, senza
+quindi utilizzare quelli nella sottodirectory server e public.
+
 In development mode, JavaScript and CSS files are sent individually to make
 debugging easier.
+
+Quando si è in modalità di sviluppo, i file Javascript e CSS sono spediti individualmente per
+rendere piùfacile il debug
 
 HTML files in a Meteor application are treated quite a bit differently
 from a server-side framework.  Meteor scans all the HTML files in your
@@ -78,14 +109,27 @@ directory for three top-level elements: `<head>`, `<body>`, and
 into a single head and body, which are transmitted to the client on
 initial page load.
 
+I file HTML in un appliczione Meteor sono trattati in modo leggermente diverso da quello
+usato nei framework di tipo server-side. Meteor analizza tutti  i file HTML nella tua cartella attraverso 
+tre elementi: `<head>`, `<body>`, e `<template>`. La sezione head e quella body sono [], 
+e vengono trasmesse al client all'inizio del caricamento della page. 
+
 Template sections, on the other hand, are converted into JavaScript
 functions, available under the `Template` namespace.  It's
 a really convenient way to ship HTML templates to the client.
 See the [templates](#templates) section for more.
 
+La sezione template, invece, sono convertite in funzioni Javascript, diponibili
+con il nome del Template. Questo è un modo convenitente per spedire l'HTML al client.
+Per maggiori informazioni guardare la sezione [templates](#templates)
+
 Lastly, the Meteor server will serve any files under the `public`
 directory, just like in a Rails or Django project.  This is the place
 for images, `favicon.ico`, `robots.txt`, and anything else.
+
+Infine, il server Meteor analiiza e utillizza tuti i file della directory
+'public', come in un progetto ails o Django. Questo è il posto per immagini, 
+'favicon.ico', 'robots.txt', e qualsiasi altra cosa.
 
 It is best to write your application in such a way that it is
 insensitive to the order in which files are loaded, for example by
@@ -96,22 +140,46 @@ other packages. However sometimes load order dependencies in your
 application are unavoidable. The JavaScript and CSS files in an
 application are loaded according to these rules:
 
+Un buon modo per scrivere le applicazioni è che non siano dipendente dall'ordine in
+cui i file sono caricati, per esempio utilizzando [Meteor.startup](#meteor_startup), 
+oppure spostando il codice dipendente dall'ordine di caricamento in [Smart Packages](#smartpackages),
+il quale è in grado di controllare sia l'ordine di caricamento dei loro contenuti 
+che l'ordine di caricamento rispetto ad altri packages. Tuttavia qualche volta è inevitabile 
+dover caricare dei file con dipendenze di ordine. I file Javascript e CSS in un applicazione,
+sono caricate secondo queste regole:
+
 * Files in the `lib` directory at the root of your application are
   loaded first.
 
+* I file nella cartella `lib` alla radice dell'applicazione sono caricati per primi
+
 * Files that match `main.*` are loaded after everything else.
+
+* I files che si chiamano `main.*` sono caricati dopo qualsiasi altra cosa
 
 * Files in subdirectories are loaded before files in parent
   directories, so that files in the deepest subdirectory are loaded
   first (after `lib`), and files in the root directory are loaded last
   (other than `main.*`).
 
+* I file nelle sotto-cartelle sono caricati prima dei file della cartella
+  principale, quindi i file nell' ultima sottocartella sono caricati per primi 
+  (dopo `lib`) e i file nella cartella radice sono caricati per ultimi 
+  (prima di `main.*`)
+
 * Within a directory, files are loaded in alphabetical order by
   filename.
+
+* All'interno delle cartelle i file sono caricati in ordine alfabetico 
 
 These rules stack, so that within `lib`, for example, files are still
 loaded in alphabetical order; and if there are multiple files named
 `main.js`, the ones in subdirectories are loaded earlier.
+
+Questo stack di regole assicura chei file siano caricati in ordine 
+alfabetico anche dentro la cartella `lib` e chese ci sono più file 
+chiamati main.js quella nella sotto cartella più profonda viene caricata
+per prima. 
 
 {{/better_markdown}}
 </template>
@@ -119,7 +187,7 @@ loaded in alphabetical order; and if there are multiple files named
 <template name="data">
 {{#better_markdown}}
 
-<h2 id="dataandsecurity">Data and security</h2>
+<h2 id="dataandsecurity">Dati and sicurezza</h2>
 
 Meteor makes writing distributed client code as simple as talking to a
 local database.  It's a clean, simple, and secure approach that obviates
@@ -127,11 +195,25 @@ the need to implement individual RPC endpoints, manually cache data on
 the client to avoid slow roundtrips to the server, and carefully
 orchestrate invalidation messages to every client as data changes.
 
+Meteor rende la scrittura di codice client distribuito semplice 
+come parlare con un database locale. E' un approcio pulito, semplice e sicuro
+che elimina la necessità di implemtare RPC endpoints individuali, cache di dati 
+manuali sul client per evitare lenti dialoghi con il server, e organizzazione
+messaggi di invalidazione su ogni client quando i dati si modificano.
+
+
 In Meteor, the client and server share the same database API.  The same
 exact application code &mdash; like validators and computed properties &mdash; can
 often run in both places.  But while code running on the server has
 direct access to the database, code running on the client does *not*.
 This distinction is the basis for Meteor's data security model.
+
+In Meteor, il client e il server condividono lo  stesso database API. Lo stesso
+codice applicazione &mdash; come i validatori e le proprietà calcolate &mdash; 
+può girare da entrambe le parti. Ma se il codice viene eseguito lato server ha accesso
+diretto al database, se il codice viene eseguito lato client *no*.
+Questa distinzione è alla base del modello di sicurezza dei dati di meteor.  
+
 
 {{#note}}
 By default, a new Meteor app includes the `autopublish` and `insecure`
@@ -139,12 +221,23 @@ packages, which together mimic the effect of each client having full
 read/write access to the server's database.  These are useful
 prototyping tools, but typically not appropriate for production
 applications.  When you're ready, just remove the packages.
+
+Di default, una nuova applicazione Meteor include i packages `autopublish` 
+e `insecure`, i quali insieme imitano il comportamento di un client avente
+pieno accesso ai dati, sia in scrittura che in lettura, del database del server.
+Si tratta di strumenti utili per creare prototipi ma generalmene non sono appropriati
+per creare nuove app. Quando sarai pronto, remuovi questi packages.
 {{/note}}
 
 Every Meteor client includes an in-memory database cache.  To manage the
 client cache, the server *publishes* sets of JSON documents, and the
 client *subscribes* to those sets.  As documents in a set change, the
 server patches each client's cache.
+
+Ciascun client Meteor una cache di memoria per il database. Per gestire 
+la cache lato client, il server *pubblica* un insieme di documenti JSON, e il 
+client *sootoscrive * questi insiemi. Ogni insieme di cambiamenti sui documenti,
+il server cerca di aggiornare ogni cache dei vari client.
 
 Today most Meteor apps use MongoDB as their database because it is the
 best supported, though support for other databases is coming in the
@@ -154,13 +247,19 @@ is used to declare Mongo collections and to manipulate them. Thanks to
 `minimongo`, Meteor's client-side Mongo emulator, `Meteor.Collection`
 can be used from both client and server code.
 
-    // declare collections
-    // this code should be included in both the client and the server
-    Rooms = new Meteor.Collection("rooms");
+Molte applicazioni Meteor usano MongoDB come database perchè è quello supportato
+meglio, sebbene il supporto per altri database arriverà in futuro. La classe
+[`Meteor.Collection`](http://docs.meteor.com/#meteor_collection) è usata per dchiarare
+le collezzioni di Mongo e per manipolarle. Grazie a `minimongo`, un emulatore di Mongo 
+per Meteor lato client, le `Meteor.COllection` possono essere usate sia nel codice client che in 
+quello server
+
+    // dichiarare una collection
+    // questo codice deve essere aggiunto sia lato client che lato server
     Messages = new Meteor.Collection("messages");
     Parties = new Meteor.Collection("parties");
 
-    // server: populate collections with some initial documents
+    // server: popola la collection con alcuni documenti iniziali
     Rooms.insert({name: "Conference Room A"});
     var myRooms = Rooms.find({}).fetch();
     Messages.insert({text: "Hello world", room: myRooms[0]._id});
@@ -171,17 +270,23 @@ publish function runs each time a new client subscribes to a document
 set.  The data in a document set can come from anywhere, but the common
 case is to publish a database query.
 
-    // server: publish all room documents
+Ogni insieme di documenti è definata da una funziona di pubblicazione sul server,
+Questa funzione viene eseguita tutte le volte che un nuovo cliente sottoscrive 
+nell'insieme di documenti. I dati in un insieme di documetni possono provenire da 
+ovunque, ma il caso più comune è pubblicare una query del database.
+
+
+    // server: publica tutte le stanze del documento
     Meteor.publish("all-rooms", function () {
       return Rooms.find(); // everything
     });
 
-    // server: publish all messages for a given room
+    // server: publish tutti i messaggi riferiti ad una particolare stanza
     Meteor.publish("messages", function (roomId) {
       return Messages.find({room: roomId});
     });
 
-    // server: publish the set of parties the logged-in user can see.
+    // server: publica un insieme di feste che può vedere solo se l'utente è loggato.
     Meteor.publish("parties", function () {
       return Parties.find({$or: [{"public": true},
                                  {invited: this.userId},
@@ -192,17 +297,27 @@ Publish functions can provide different results to each client.  In the
 last example, a logged in user can only see `Party` documents that
 are public, that the user owns, or that the user has been invited to.
 
+Le funzione di pubblicazione possono produrre diversi risultati per ogni client. 
+Nell'ultimo esempio, un utente loccato può vedere solo i documenti `Party` che sono pubblici,
+di cui è proprietario, o a cui è stato invitato.
+
 Once subscribed, the client uses its cache as a fast local database,
 dramatically simplifying client code.  Reads never require a costly
 round trip to the server.  And they're limited to the contents of the
 cache: a query for every document in a collection on a client will only
 return documents the server is publishing to that client.
 
-    // client: start a parties subscription
+Una volta sottoscritto, il client usa la sua cache come se fosse un veloce
+database, sempplificando moltoil codice cliente, La lettura non richiede costosi
+round trip verso il server. Ed è limitato ai contenuti della cache: un query per tutti
+i documenti di una collection da parte di un cliente ritornerà solamente i documenti
+che il server ha pubblicato su questo client
+
+    // client: inizia la sottoscrizione di parties
     Meteor.subscribe("parties");
 
-    // client: return array of Parties this client can read
-    return Parties.find().fetch(); // synchronous!
+    // client: ritorno un array di Partires che il client  può usare
+    return Parties.find().fetch(); // sincrono!
 
 Sophisticated clients can turn subscriptions on and off to control how
 much data is kept in the cache and manage network traffic.  When a
@@ -210,19 +325,28 @@ subscription is turned off, all its documents are removed from the cache
 unless the same document is also provided by another active
 subscription.
 
+Dal lato cliente si può decidere di far partire o smettere la sottoscrizione
+per controllare come i dati vengono conservati nella cache e per gestire il traffico di
+rete. Quando una sottoscrizione è interrotta, tutti i documenti sono rimossi dalla cache
+a meno che lo stesso documento sia fornito anche da un'altra sottoscrizione attiva. 
+
 When the client *changes* one or more documents, it sends a message to
 the server requesting the change.  The server checks the proposed change
 against a set of allow/deny rules you write as JavaScript functions.
 The server only accepts the change if all the rules pass.
 
-    // server: don't allow client to insert a party
+Quando il client *cambia* uno o molti documenti, il clientmanda un messaggio al server
+richiedendo  il cambiamento. Il server verifica le modifiche proposte
+rispetto ad una serie di regole che si scrivono come funzioni JavaScript.
+
+    // server: non è permesso al client di scrivere parties
     Parties.allow({
       insert: function (userId, party) {
         return false;
       }
     });
 
-    // client: this will fail
+    // client: questo restituirebbe errore
     var party = { ... };
     Parties.insert(party);
 
@@ -230,6 +354,10 @@ If the server accepts the change, it applies the change to the database
 and automatically propagates the change to other clients subscribed to
 the affected documents.  If not, the update fails, the server's database
 remains untouched, and no other client sees the update.
+
+Se il server accetta le modifiche, le appliche al database e automoticamente le propaga 
+agli altri client che stanno sottoscrivendo quel documento. Altrimenti, l'aggiornamento fallisce,
+il server ddel database rimane nvariato, e nessun altro acleinte vede le modifiche.
 
 Meteor has a cute trick, though.  When a client issues a write to the
 server, it also updates its local cache immediately, without waiting for
@@ -240,6 +368,13 @@ change and didn't have to wait for the round trip to update its own
 screen.  If the server rejects the change, Meteor patches up the
 client's cache with the server's result.
 
+Meteor ha un trucco carino. Quando un client deve compiere una scrittua sul server,
+aggiorna anche la sua cache immediatamente, senza aspettare la risposta del server.
+Questo significa che la schermata si aggiorna subito. Se il server accetta le modifche
+&mdash; che accadde la maggior parte delle volte &mdash; allora il client ha ottenuto 
+un miglioramento delle prestazione e non deve aspettare il tempo di risposta del server. 
+Se l'aggiornamento viene rifiutato, Meteor riaggiorna la cache del client con il risultato del server
+
 Putting it all together, these techniques accomplish latency
 compensation.  Clients hold a fresh copy of the data they need, and
 never need to wait for a roundtrip to the server. And when clients
@@ -247,7 +382,13 @@ modify data, those modifications can run locally without waiting for the
 confirmation from the server, while still giving the server final say
 over the requested change.
 
-<h3 id="dataandsecurity-authentication">Authentication and user accounts</h3>
+Mettendo tutto queste techine insiime viene diminuido il tempo di latenza. I client
+mantengono una copia aggiornata del dato che necessitano, e non devono 
+mai aspettare il tempo di risposta del server. E quando modificano un dato, queste modifche
+sono subito visibili senza dover attender la conferma del server, anche se viene lasciata 
+al server l'ulltima parola sulle mofiche.
+
+<h3 id="dataandsecurity-authentication">Autenticazione e account degli utenti</h3>
 
 Meteor includes [Meteor Accounts](#accounts_api), a state-of-the-art
 authentication system. It features secure password login using the
@@ -258,17 +399,35 @@ Google, Meetup, Twitter, and Weibo. Meteor Accounts defines a
 [`Meteor.users`](#meteor_users) collection where developers can store
 application-specific user data.
 
+Meteor include [Meteor Accounts](#accounts_api), un sistema di autenticazione.
+E' dotato di accesso sicurocon password utilizzando [Secure Remote Password
+protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol), 
+e l'integrazione con servizi esterni inclusi Facebbok, Github, Google, Meetup, Twitter, and Weibo.
+Gli account di Meteorviene definita un collezione [`Meteor.users`](#meteor_users) dove gli svilupptori 
+possono salvare i dati utenti specifici per l'applicazione.
+
 Meteor also includes pre-built forms for common tasks like login, signup,
 password change, and password reset emails. You can add [Accounts
 UI](#accountsui) to your app with just one line of code. The `accounts-ui` smart
 package even provides a configuration wizard that walks you through the steps to
 set up the external login services you're using in your app.
 
+Meteor include anche dei form di pre-build per obiettivi comuni come login, registrazione,
+cambiamento di password, e email per il reset della password. Si può aggiungere [Accounts
+UI](#accountsui) alla tua app consolo una linea di codice. Il package `accounts-ui`fornisce anche una procedura
+guidata di configurazione che ti guida attraverso la procedura per
+configurare i servizi di accesso esterni che state usando nella vostra applicazione.
+
 {{#note}}
 The current release of Meteor supports MongoDB, the popular document
 database, and the examples in this section use the
         [MongoDB API](http://www.mongodb.org/display/DOCS/Manual).  Future
 releases will include support for other databases.
+
+La versione attuale di Meteor supporta MongoDB, e il popolare datase di documenti.
+e gli esempi in questa sezione usano
+        [MongoDB API](http://www.mongodb.org/display/DOCS/Manual). Le versioni future
+supporteranno anche altri database.
 {{/note}}
 
 {{/better_markdown}}
