@@ -443,6 +443,11 @@ programming](http://en.wikipedia.org/wiki/Reactive_programming). This means that
 you can write your code in a simple imperative style, and the result will be
 automatically recalculated whenever data changes that your code depends on.
 
+Meteor abbraccia il concetto di [programmazione reattiva](http://en.wikipedia.org/wiki/Reactive_programming).
+questo significa che tu puoi scrivere il tuo codice in uno stile
+imperativo, e il risultato sarà automaticamente ricalcolato tutte le volte che i dati 
+da cui il tuo codice dipende cambia.
+
     Deps.autorun(function () {
       Meteor.subscribe("messages", Session.get("currentRoomId"));
     });
@@ -453,6 +458,11 @@ If the value of `Session.get("currentRoomId")` changes for any reason, the
 function will be automatically re-run, setting up a new subscription that
 replaces the old one.
 
+Questo esempio (preso da una chat) setta la sottiscrizione dei dati 
+in base al valore della variabile `currentRoomId`. Se il valore di Session.get("currentRoomId") 
+cambia per qualsiasi ragione, la funzione verra eseguita automaticamente, settando una nuova sottoscrizione
+che rimpiazzi quella vecchia
+
 This automatic recomputation is achieved by a cooperation between
 `Session` and `Deps.autorun`.  `Deps.autorun` performs an arbitrary "reactive
 computation" inside of which data dependencies are tracked, and it
@@ -461,6 +471,13 @@ will re-run its function argument as necessary.  Data providers like
 called from and what data was requested, and they are prepared to send
 an invalidation signal to the computation when the data changes.
 
+Questo ricompilazione automatica è possibile grazie alla cooperazione tra
+`Session` e `Deps.autorun`.  `Deps.autorun` compie in modo arbitrario la 
+"programmazione reattiva" all'interno del quale le dipendenze sono tracciate 
+e si riesegue la funzione se necessrio. I dati resi disponibili tramite `Session`,
+dall'altra parte, tiene traccia del momento in cui è stata chiamata e quale data era richiesto,
+ed è pronta ad inviare un segnale di invalidazione quando i dati cambiano.
+
 This simple pattern (reactive computation + reactive data source) has wide
 applicability.  Above, the programmer is saved from writing
 unsubscribe/resubscribe calls and making sure they are called at the
@@ -468,13 +485,22 @@ right time.  In general, Meteor can eliminate whole classes of data
 propagation code which would otherwise clog up your application with
 error-prone logic.
 
+Questo semplice schema (calcolo reattivo e dati reattivi) ha una grande applicabilità.
+Il programmatore può non scrivere le chiamate per sottoscrivere i dati ec essere comunque sicuro che i dati vengono chiamati
+al momento giusto. In generale, Meteor può eleiminare intere classi di dati 
+che potrebbero intasare l'applicazioni con errori.
+
+
 These Meteor functions run your code as a reactive computation:
+
+Queste funzioni di metero rendono il codice reattivo:
 
 * [Templates](#templates)
 * [`Meteor.render`](#meteor_render) and [`Meteor.renderList`](#meteor_renderlist)
 * [`Deps.autorun`](#deps_autorun)
 
 And the reactive data sources that can trigger changes are:
+E i sorgenti di dati reattive che possono innescare cambiamenti sono
 
 * [`Session`](#session) variables
 * Database queries on [Collections](#find)
@@ -488,6 +514,9 @@ In addition, the following functions which return an object with a
 `stop` method, if called from a reactive computation, are stopped when
 the computation is rerun or stopped:
 
+In più ci sono le seguenti funzioni che ritornano un oggetto con un metodo `stop`,
+se è chiamato da un codice reattivo, è stoppatoquando l'esecuzione si riesegue o viene stoppata:
+
 * [`Deps.autorun`](#deps_autorun) (nested)
 * [`Meteor.subscribe`](#meteor_subscribe)
 * [`observe()`](#observe) and [`observeChanges()`](#observe_changes) on cursors
@@ -496,6 +525,10 @@ Meteor's
 [implementation](https://github.com/meteor/meteor/blob/master/packages/deps/deps.js)
 is a package called [`Deps`](#deps) that is fairly short and straightforward.
 You can use it yourself to implement new reactive data sources.
+
+[L'implementazione](https://github.com/meteor/meteor/blob/master/packages/deps/deps.js)
+di meteor è un package chiamato [`Deps`](#deps)  che  è abbstanza breve e semplice.
+Puoi utilizzarlo per implementare nuovi sorgenti di dati reattivi.
 
 {{/better_markdown}}
 </template>
